@@ -1,0 +1,22 @@
+{
+  "type": "materials",
+  "units": "mm N",
+  "definitions": [
+    {
+      "id": 1,
+      "name": "steel S355",
+      "type": "elastic",
+      "E": 210000,
+      "G": 87500,
+      "nu": 0.2
+    },
+    {
+      "id": 2,
+      "name": "concrete C30",
+      "type": "elastic",
+      "E": 32000,
+      "G": 12800,
+      "nu": 0.25
+    }
+  ]
+}

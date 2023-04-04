@@ -1,0 +1,166 @@
+{
+  "nodes": [
+    {
+      "id": 1,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "id": 2,
+      "x": 50.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "id": 3,
+      "x": 100.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    {
+      "id": 4,
+      "x": 150.0,
+      "y": 50.0,
+      "z": 0.0
+    },
+    {
+      "id": 5,
+      "x": 200.0,
+      "y": 100.0,
+      "z": 0.0
+    },
+    {
+      "id": 6,
+      "x": 250.0,
+      "y": 100.0,
+      "z": 50.0
+    },
+    {
+      "id": 7,
+      "x": 300.0,
+      "y": 100.0,
+      "z": 100.0
+    },
+    {
+      "id": 8,
+      "x": 350.0,
+      "y": 50.0,
+      "z": 100.0
+    },
+    {
+      "id": 9,
+      "x": 400.0,
+      "y": 0.0,
+      "z": 100.0
+    }
+  ],
+  "elements-1D": [
+    {
+      "id": 1,
+      "node-ids": [
+        1,
+        2
+      ],
+      "material-id": 1,
+      "cross-section-id": 1
+    },
+    {
+      "id": 2,
+      "node-ids": [
+        2,
+        3
+      ],
+      "material-id": 1,
+      "cross-section-id": 1
+    },
+    {
+      "id": 3,
+      "node-ids": [
+        3,
+        4
+      ],
+      "material-id": 1,
+      "cross-section-id": 1
+    },
+    {
+      "id": 4,
+      "node-ids": [
+        4,
+        5
+      ],
+      "material-id": 1,
+      "cross-section-id": 1
+    },
+    {
+      "id": 5,
+      "node-ids": [
+        5,
+        6
+      ],
+      "material-id": 1,
+      "cross-section-id": 1
+    },
+    {
+      "id": 6,
+      "node-ids": [
+        6,
+        7
+      ],
+      "material-id": 1,
+      "cross-section-id": 1
+    },
+    {
+      "id": 7,
+      "node-ids": [
+        7,
+        8
+      ],
+      "material-id": 1,
+      "cross-section-id": 1
+    },
+    {
+      "id": 8,
+      "node-ids": [
+        8,
+        9
+      ],
+      "material-id": 1,
+      "cross-section-id": 1
+    }
+  ],
+  "nodal-displacements": [
+    {
+      "id": 1,
+      "node-id": 1,
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "rx": 0,
+      "ry": 0,
+      "rz": 0
+    }
+  ],
+  "nodal-forces": [
+    {
+      "id": 1,
+      "node-id": 9,
+      "fx": 0,
+      "fy": 0,
+      "fz": 1000,
+      "mx": 0,
+      "my": 0,
+      "mz": 0
+    },
+    {
+      "id": 2,
+      "node-id": 5,
+      "fx": 0,
+      "fy": 1,
+      "fz": 0,
+      "mx": 0,
+      "my": 0,
+      "mz": 0
+    }
+  ]
+}

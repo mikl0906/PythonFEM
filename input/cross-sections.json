@@ -1,0 +1,15 @@
+{
+  "type": "cross-sections",
+  "linear-profiles": [
+    {
+      "id": 1,
+      "name": "circle",
+      "r": 5,
+      "A": 70,
+      "Iy": 490,
+      "Iz": 490,
+      "J": 982,
+      "k": 0.83
+    }
+  ]
+}
