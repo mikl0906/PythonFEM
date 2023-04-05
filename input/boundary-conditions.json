@@ -15,20 +15,10 @@
   "point-forces": [
     {
       "id": 1,
-      "point-id": 5,
+      "point-id": 2,
       "fx": 0,
       "fy": 0,
       "fz": 1000,
-      "mx": 0,
-      "my": 0,
-      "mz": 0
-    },
-    {
-      "id": 2,
-      "point-id": 3,
-      "fx": 0,
-      "fy": 1,
-      "fz": 0,
       "mx": 0,
       "my": 0,
       "mz": 0

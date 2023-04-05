@@ -3,13 +3,13 @@ import numpy as np
 import time
 
 start_time = time.time()
+print("\nMesh generation started")
 
 # Read mesh-settings.json
 with open("./mesh/mesh-settings.json") as settings_file:
     settings = json.load(settings_file)
 N_OF_1D_ELEMENTS = settings["number-of-1D-element-divisions"]
 NODE_DISTANCE_TOLERANCE = settings["node-distance-tolerance"]
-
 
 # Read geometry.json
 with open("./input/geometry.json") as geometry_file:
@@ -129,9 +129,9 @@ mesh_file_content = {
 with open("./mesh/mesh.json", "w") as mesh_file:
     json.dump(mesh_file_content, mesh_file, indent=2)
 
-print("\nMesh file successfully created\n"+
+print("\nMesh generated successfully\n"+
       f"Number of nodes:                 {len(nodes)}\n"+
       f"Number of 1D elements:           {len(elements_1D)}\n"+
       f"Number of nodal displacement bc: {len(nodal_displacements)}\n"+
       f"Number of nodal force bc:        {len(nodal_forces)}\n"+
-      f"Time elapsed:                    {round(time.time() - start_time, 8)} seconds")
+      f"Time elapsed:                    {round(time.time() - start_time, 8)} seconds\n")

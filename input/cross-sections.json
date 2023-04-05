@@ -3,13 +3,52 @@
   "linear-profiles": [
     {
       "id": 1,
-      "name": "circle",
+      "name": "test profile",
       "r": 5,
       "A": 70,
       "Iy": 490,
       "Iz": 490,
       "J": 982,
       "k": 0.83
+    },
+    {
+      "id": 2,
+      "name": "rect 200x300",
+      "geometry": {
+        "points": [
+          {
+            "id": 1,
+            "y": -100,
+            "z": -150
+          },
+          {
+            "id": 2,
+            "y": -100,
+            "z": 150
+          },
+          {
+            "id": 3,
+            "y": 100,
+            "z": 150
+          },
+          {
+            "id": 4,
+            "y": 100,
+            "z": -150
+          }
+        ],
+        "polygons": [
+          {
+            "id": 1,
+            "point-ids": [1, 2, 3, 4]
+          }
+        ]
+      },
+      "properties": {
+        "area": null,
+        "Iy": null,
+        "Iz": null
+      }
     }
   ]
 }

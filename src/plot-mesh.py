@@ -8,7 +8,7 @@ with open("./mesh/mesh.json") as mesh_file:
 fig = plt.figure()
 ax = fig.add_subplot(projection="3d")
 
-for element in mesh["elements_1D"]:
+for element in mesh["elements-1D"]:
     node_ids = element["node-ids"]
 
     nodes = [node for node in mesh["nodes"] if node["id"] in node_ids]

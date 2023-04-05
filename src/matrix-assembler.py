@@ -2,6 +2,9 @@ import json
 from core import element_k_matrix
 import numpy as np
 
+print("Matrix assembler started\n")
+
+# Import mesh
 with open("./mesh/mesh.json") as matrices_file:
     mesh = json.load(matrices_file)
 
@@ -10,18 +13,20 @@ elements_1D = mesh["elements-1D"]
 nodal_displacements = mesh["nodal-displacements"]
 nodal_forces = mesh["nodal-forces"]
 
+# Import materials
 with open("./input/materials.json") as materials_file:
     materials = json.load(materials_file)["definitions"]
 
+# Import cross sections
 with open("./input/cross-sections.json") as cross_sections_file:
     cross_sections = json.load(cross_sections_file)["linear-profiles"]
 
 number_of_nodes = len(nodes)
-number_of_dof = number_of_nodes * 6
+number_of_dofs = number_of_nodes * 6
 number_of_elements_1D = len(elements_1D)
 
-stiffness_matrix = np.zeros((number_of_dof, number_of_dof))
-force_vector = np.zeros(number_of_dof)
+stiffness_matrix = np.zeros((number_of_dofs, number_of_dofs))
+force_vector = np.zeros(number_of_dofs)
 zero_dofs = []
 
 for element in elements_1D:
@@ -40,7 +45,6 @@ for element in elements_1D:
     A = cross_section["A"]
     Iy = cross_section["Iy"]
     Iz = cross_section["Iz"]
-    J = cross_section["J"]
     k = cross_section["k"]
 
     element_k_matrix_lcs = element_k_matrix(L, E, G, A, Iy, Iz, k)
@@ -69,3 +73,6 @@ matrices_file_content = {
 # Create/Open mesh file and overwrite the content
 with open("./fem_data/matrices.json", "w") as matrices_file:
     json.dump(matrices_file_content, matrices_file, indent=2)
+
+print(f"Number of dofs: {number_of_dofs}")
+print("Matrix assembler finished\n")

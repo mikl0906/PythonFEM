@@ -1,5 +1,5 @@
 {
-  "number-of-1D-element-divisions": 2,
+  "number-of-1D-element-divisions": 10,
   "element-1D-order": "linear",
   "node-distance-tolerance": 0.001
 }

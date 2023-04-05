@@ -3,51 +3,18 @@
   "units": "mm",
   "points": [
     { "id": 1, "x": 0, "y": 0, "z": 0 },
-    { "id": 2, "x": 100, "y": 0, "z": 0 },
-    { "id": 3, "x": 200, "y": 100, "z": 0 },
-    { "id": 4, "x": 300, "y": 100, "z": 100 },
-    { "id": 5, "x": 400, "y": 0, "z": 100 }
+    { "id": 2, "x": 100, "y": 0, "z": 0 }
   ],
   "lines": [
     {
       "id": 1,
       "point-ids": [1, 2]
-    },
-    {
-      "id": 2,
-      "point-ids": [2, 3]
-    },
-    {
-      "id": 3,
-      "point-ids": [3, 4]
-    },
-    {
-      "id": 4,
-      "point-ids": [4, 5]
     }
   ],
   "beams": [
     {
       "id": 1,
       "line-id": 1,
-      "material-id": 1,
-      "cross-section-id": 1
-    },
-    {
-      "id": 2,
-      "line-id": 2,
-      "material-id": 1,
-      "cross-section-id": 1
-    },
-    {
-      "id": 3,
-      "line-id": 3,
-      "material-id": 1,
-      "cross-section-id": 1
-    },
-    {
-      "id": 4,
-      "line-id": 4,
       "material-id": 1,
       "cross-section-id": 1
     }

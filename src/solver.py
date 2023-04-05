@@ -1,6 +1,8 @@
 import json
 import numpy as np
 
+print("Solver started\n")
+
 with open("./fem_data/matrices.json") as matrices_file:
     matrices = json.load(matrices_file)
 
@@ -43,3 +45,5 @@ result_file_content = {
 
 with open("./results/results.json", "w") as results_file:
     json.dump(result_file_content, results_file, indent=2)
+
+print("Solver finished\n")
