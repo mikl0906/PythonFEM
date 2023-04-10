@@ -16,10 +16,10 @@ with open("./results/results.json") as results_file:
 
 displacements = np.array(results["displacements"])
 
-with open("./input/materials.json") as materials_file:
-    materials = json.load(materials_file)["definitions"]
+with open("./library/materials.json") as materials_file:
+    materials = json.load(materials_file)["materials"]
 
-with open("./input/cross-sections.json") as cross_sections_file:
+with open("./library/cross-sections.json") as cross_sections_file:
     cross_sections = json.load(cross_sections_file)["linear-profiles"]
 
 

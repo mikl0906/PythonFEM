@@ -37,13 +37,16 @@ for element_1d in elements_1d.values():
     L = np.sqrt(sum((element_nodes[0][i] - element_nodes[-1][i])**2 for i in ("x", "y", "z")))
 
     fem_type = element_1d["fem-type"]
-    element_matrix, dofs
+    element_matrix = None
+    dofs = None
 
     if fem_type == "bar":
         E = material["E"]
         A = cross_section["A"]
-        element_matrix = element_bar_k_matrix(L, E, A)
-        dofs = np.tile(np.tile(np.arange(3), (2, 1)).T + 3 * (node_ids - 1).ravel(order="F"), (6,1))
+
+        P = np.array([[1,0,0,0,0,0],[0,0,0,1,0,0]])
+        element_matrix = np.matmul(P.T,np.matmul(element_bar_k_matrix(L, E, A),P))
+        dofs = np.tile((np.tile(np.arange(3), (2, 1)).T + 3 * (node_ids - 1)).ravel(order="F"), (6,1))
 
     if fem_type == "beam":
         E = material["E"]
@@ -52,17 +55,19 @@ for element_1d in elements_1d.values():
         Iy = cross_section["Iy"]
         Iz = cross_section["Iz"]
         k = cross_section["k"]
+
         element_matrix = element_k_matrix(L, E, G, A, Iy, Iz, k)
         dofs = np.tile(np.tile(np.arange(6), (2, 1)).T + 6 * (node_ids - 1).ravel(order="F"), (12,1))
 
-    stiffness_matrix[dofs.T, dofs] += element_matrix
+    if element_matrix is not None and dofs is not None:
+        stiffness_matrix[dofs.T, dofs] += element_matrix
 
-for nodal_force in nodal_forces:
-    dofs = np.arange(6) + 6 * (nodal_force["node-id"] - 1)
+for nodal_force in nodal_forces.values():
+    dofs = np.arange(6) + 6 * (int(nodal_force["node-id"]) - 1)
     force_vector[dofs] += [nodal_force[key] for key in ("fx", "fy", "fz", "mx", "my", "mz")]
 
-for nodal_dips in nodal_displacements:
-    dofs = np.arange(6) + 6 * (nodal_dips["node-id"] - 1)
+for nodal_dips in nodal_displacements.values():
+    dofs = np.arange(6) + 6 * (int(nodal_dips["node-id"]) - 1)
     values = [nodal_dips[key] for key in ("x", "y", "z", "rx", "ry", "rz")]
 
     zero_node_dofs = [dof for i, dof in enumerate(dofs) if values[i] == 0]
@@ -70,11 +75,12 @@ for nodal_dips in nodal_displacements:
     stiffness_matrix = np.delete(np.delete(stiffness_matrix, zero_node_dofs, axis=0), zero_node_dofs, axis=1)
     force_vector = np.delete(force_vector, zero_node_dofs)
 
+zero_row_ids = []
 for i, row in enumerate(stiffness_matrix):
     if np.dot(row, row) < 0.001:
-        stiffness_matrix = np.delete(np.delete(stiffness_matrix, i, axis=0), i, axis=1)
-        force_vector = np.delete(force_vector, i)
-
+        zero_row_ids.append(i)
+stiffness_matrix = np.delete(np.delete(stiffness_matrix, zero_row_ids, axis=0), zero_row_ids, axis=1)
+force_vector = np.delete(force_vector, zero_row_ids)
 
 matrices_file_content = {
     "stiffness-matrix": stiffness_matrix.tolist(),

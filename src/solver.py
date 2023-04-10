@@ -9,8 +9,8 @@ start_time = time.time()
 with open("./fem_data/matrices.json") as matrices_file:
     matrices = json.load(matrices_file)
 
-stiffness_matrix = matrices["stiffness-matrix"]
-force_vector = matrices["force-vector"]
+stiffness_matrix = np.array(matrices["stiffness-matrix"])
+force_vector = np.array(matrices["force-vector"])
 zero_dofs = matrices["zero-dofs"]
 
 solution = solve_lu(stiffness_matrix, force_vector)

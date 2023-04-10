@@ -3,8 +3,8 @@ import sys
 import matplotlib.pyplot as plt
 
 def element_bar_k_matrix(L, E, A):
-    return E*A/L*[[1, -1],
-                  [-1, 1]]
+    return E*A/L*np.array([[1., -1.],
+                           [-1., 1.]])
 
 def element_bar_t_matrix(node1, node2):
     return 1
