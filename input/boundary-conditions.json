@@ -1,8 +1,6 @@
 {
-  "type": "boundary-conditions",
-  "point-displacements": [
-    {
-      "id": 1,
+  "point-displacements": {
+    "1": {
       "point-id": 1,
       "x": 0,
       "y": 0,
@@ -11,10 +9,9 @@
       "ry": 0,
       "rz": 0
     }
-  ],
-  "point-forces": [
-    {
-      "id": 1,
+  },
+  "point-forces": {
+    "1": {
       "point-id": 2,
       "fx": 0,
       "fy": 0,
@@ -23,5 +20,5 @@
       "my": 0,
       "mz": 0
     }
-  ]
+  }
 }

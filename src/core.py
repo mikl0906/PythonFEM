@@ -1,3 +1,14 @@
+import numpy as np
+import sys
+import matplotlib.pyplot as plt
+
+def element_bar_k_matrix(L, E, A):
+    return E*A/L*[[1, -1],
+                  [-1, 1]]
+
+def element_bar_t_matrix(node1, node2):
+    return 1
+
 def element_k_matrix(L, E, G, A, Iy, Iz, k):
     EIy = E*Iy
     EIz = E*Iz
@@ -44,3 +55,72 @@ def element_k_matrix(L, E, G, A, Iy, Iz, k):
         [      0,      0, k_3_11,      0, k_5_11,      0,       0,      0, k_9_11,      0,k_11_11,      0],
         [      0, k_2_12,      0,      0,      0, k_6_12,       0, k_8_12,      0,      0,      0,k_12_12]
     ]
+
+# Direct solvers
+def solve_gaussian(A_matrix,b_vector):
+    A = np.array(A_matrix, dtype=float)
+    b = np.array(b_vector, dtype=float)
+    n = np.size(b)
+    x = np.zeros(n)
+
+    for i in range(n):
+        if A[i,i] == 0.0:
+            sys.exit(f"Error while solving. Main diagonal element is zero. DOF: {i}")
+        for j in range(i+1, n):
+            ratio = A[j,i] / A[i,i]
+            for k in range(n):
+                A[j,k] -= ratio*A[i,k]
+            b[j] -= ratio*b[i]
+
+    for i in range(n-1,-1,-1):
+        x[i] = b[i]
+        for j in range(i+1, n):
+            x[i] -= A[i,j]*x[j]
+        x[i] /= A[i,i]
+
+    return x
+
+def solve_lu(A,b):
+    n = np.size(b)
+    LU = np.zeros((n, n))
+    for i in range(n):
+        for j in range(i, n):
+            sum = 0
+            for k in range(0,i):
+                sum += LU[i,k] * LU[k,j]
+            LU[i,j] = A[i,j] - sum
+
+        for j in range(i+1,n):
+            sum = 0
+            for k in range(0,i):
+                sum += LU[j,k] * LU[k,i]
+            LU[j,i] = (A[j,i] - sum) / LU[i,i]
+
+    y = np.zeros(n)
+    for i in range(n):
+        sum = 0
+        for k in range(i):
+            sum += LU[i,k] * y[k]
+        y[i] = b[i] - sum
+
+    x = np.zeros(n)
+    for i in range(n-1,-1,-1):
+        sum = 0
+        for k in range(i+1,n):
+            sum += LU[i,k] * x[k]
+        x[i] = (y[i] - sum) / LU[i,i]
+
+    return x
+
+# Iterative solvers
+def solve_jacobi(A,b):
+    n = np.size(b)
+    x = np.zeros(n)
+    D = np.diag(A)
+    LU = A - np.eye(n)*D
+    for _ in range(100):
+        x_old = x
+        x = (b - np.matmul(LU, x))/ D
+        if np.dot(x-x_old,x-x_old) < 0.00001:
+            return x
+    return None

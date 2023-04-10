@@ -1,168 +1,158 @@
 {
-  "nodes": [
-    {
-      "id": 1,
+  "nodes": {
+    "1": {
       "x": 0.0,
       "y": 0.0,
       "z": 0.0
     },
-    {
-      "id": 2,
+    "2": {
       "x": 10.0,
       "y": 0.0,
       "z": 0.0
     },
-    {
-      "id": 3,
+    "3": {
       "x": 20.0,
       "y": 0.0,
       "z": 0.0
     },
-    {
-      "id": 4,
+    "4": {
       "x": 30.0,
       "y": 0.0,
       "z": 0.0
     },
-    {
-      "id": 5,
+    "5": {
       "x": 40.0,
       "y": 0.0,
       "z": 0.0
     },
-    {
-      "id": 6,
+    "6": {
       "x": 50.0,
       "y": 0.0,
       "z": 0.0
     },
-    {
-      "id": 7,
+    "7": {
       "x": 60.0,
       "y": 0.0,
       "z": 0.0
     },
-    {
-      "id": 8,
+    "8": {
       "x": 70.0,
       "y": 0.0,
       "z": 0.0
     },
-    {
-      "id": 9,
+    "9": {
       "x": 80.0,
       "y": 0.0,
       "z": 0.0
     },
-    {
-      "id": 10,
+    "10": {
       "x": 90.0,
       "y": 0.0,
       "z": 0.0
     },
-    {
-      "id": 11,
+    "11": {
       "x": 100.0,
       "y": 0.0,
       "z": 0.0
     }
-  ],
-  "elements-1D": [
-    {
-      "id": 1,
+  },
+  "elements-1d": {
+    "1": {
       "node-ids": [
         1,
         2
       ],
       "material-id": 1,
-      "cross-section-id": 1
+      "cross-section-id": 1,
+      "fem-type": "bar"
     },
-    {
-      "id": 2,
+    "2": {
       "node-ids": [
         2,
         3
       ],
       "material-id": 1,
-      "cross-section-id": 1
+      "cross-section-id": 1,
+      "fem-type": "bar"
     },
-    {
-      "id": 3,
+    "3": {
       "node-ids": [
         3,
         4
       ],
       "material-id": 1,
-      "cross-section-id": 1
+      "cross-section-id": 1,
+      "fem-type": "bar"
     },
-    {
-      "id": 4,
+    "4": {
       "node-ids": [
         4,
         5
       ],
       "material-id": 1,
-      "cross-section-id": 1
+      "cross-section-id": 1,
+      "fem-type": "bar"
     },
-    {
-      "id": 5,
+    "5": {
       "node-ids": [
         5,
         6
       ],
       "material-id": 1,
-      "cross-section-id": 1
+      "cross-section-id": 1,
+      "fem-type": "bar"
     },
-    {
-      "id": 6,
+    "6": {
       "node-ids": [
         6,
         7
       ],
       "material-id": 1,
-      "cross-section-id": 1
+      "cross-section-id": 1,
+      "fem-type": "bar"
     },
-    {
-      "id": 7,
+    "7": {
       "node-ids": [
         7,
         8
       ],
       "material-id": 1,
-      "cross-section-id": 1
+      "cross-section-id": 1,
+      "fem-type": "bar"
     },
-    {
-      "id": 8,
+    "8": {
       "node-ids": [
         8,
         9
       ],
       "material-id": 1,
-      "cross-section-id": 1
+      "cross-section-id": 1,
+      "fem-type": "bar"
     },
-    {
-      "id": 9,
+    "9": {
       "node-ids": [
         9,
         10
       ],
       "material-id": 1,
-      "cross-section-id": 1
+      "cross-section-id": 1,
+      "fem-type": "bar"
     },
-    {
-      "id": 10,
+    "10": {
       "node-ids": [
         10,
         11
       ],
       "material-id": 1,
-      "cross-section-id": 1
+      "cross-section-id": 1,
+      "fem-type": "bar"
     }
-  ],
-  "nodal-displacements": [
-    {
-      "id": 1,
-      "node-id": 1,
+  },
+  "elements-2d": {},
+  "elements-3d": {},
+  "nodal-displacements": {
+    "1": {
+      "node-id": "1",
       "x": 0,
       "y": 0,
       "z": 0,
@@ -170,11 +160,10 @@
       "ry": 0,
       "rz": 0
     }
-  ],
-  "nodal-forces": [
-    {
-      "id": 1,
-      "node-id": 11,
+  },
+  "nodal-forces": {
+    "1": {
+      "node-id": "11",
       "fx": 0,
       "fy": 0,
       "fz": 1000,
@@ -182,5 +171,5 @@
       "my": 0,
       "mz": 0
     }
-  ]
+  }
 }

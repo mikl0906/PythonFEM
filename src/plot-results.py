@@ -9,7 +9,7 @@ with open("./mesh/mesh.json") as mesh_file:
     mesh = json.load(mesh_file)
 
 nodes = mesh["nodes"]
-elements_1D = mesh["elements-1D"]
+elements_1d = mesh["elements-1d"]
 
 with open("./results/results.json") as results_file:
     results = json.load(results_file)
@@ -44,7 +44,7 @@ G_p1 = lambda xi, az, bz: bz*(3*xi**2 + (az - 4)*xi + 1 - az)
 G_p2 = lambda xi, az, bz: bz*(3*xi**2 - (az + 2)*xi)
 
 
-for element_1D in elements_1D:
+for element_1D in elements_1d.values():
     node_ids = np.array(element_1D["node-ids"])
     element_nodes = [node for node in nodes if node["id"] in node_ids]
     node1_pos = [element_nodes[0][i] for i in ("x", "y", "z")]

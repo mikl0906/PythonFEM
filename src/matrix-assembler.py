@@ -1,5 +1,5 @@
 import json
-from core import element_k_matrix
+from core import element_bar_k_matrix, element_k_matrix
 import numpy as np
 
 print("Matrix assembler started\n")
@@ -9,47 +9,53 @@ with open("./mesh/mesh.json") as matrices_file:
     mesh = json.load(matrices_file)
 
 nodes = mesh["nodes"]
-elements_1D = mesh["elements-1D"]
+elements_1d = mesh["elements-1d"]
 nodal_displacements = mesh["nodal-displacements"]
 nodal_forces = mesh["nodal-forces"]
 
 # Import materials
-with open("./input/materials.json") as materials_file:
-    materials = json.load(materials_file)["definitions"]
+with open("./library/materials.json") as materials_file:
+    materials = json.load(materials_file)["materials"]
 
 # Import cross sections
-with open("./input/cross-sections.json") as cross_sections_file:
+with open("./library/cross-sections.json") as cross_sections_file:
     cross_sections = json.load(cross_sections_file)["linear-profiles"]
 
 number_of_nodes = len(nodes)
 number_of_dofs = number_of_nodes * 6
-number_of_elements_1D = len(elements_1D)
+number_of_elements_1d = len(elements_1d)
 
 stiffness_matrix = np.zeros((number_of_dofs, number_of_dofs))
 force_vector = np.zeros(number_of_dofs)
 zero_dofs = []
 
-for element in elements_1D:
-    node_ids = np.array(element["node-ids"])
-    element_nodes = [node for node in nodes if node["id"] in node_ids]
+for element_1d in elements_1d.values():
+    material = materials[str(element_1d["material-id"])]
+    cross_section = cross_sections[str(element_1d["cross-section-id"])]
+    node_ids = np.array(element_1d["node-ids"])
+    element_nodes = [nodes[str(node_id)] for node_id in node_ids]
     L = np.sqrt(sum((element_nodes[0][i] - element_nodes[-1][i])**2 for i in ("x", "y", "z")))
-    
-    dofs = np.tile(np.arange(6), (2, 1)).T + 6 * (node_ids - 1)
-    dofs = np.tile(dofs.ravel(order="F"), (12, 1))
 
-    material = next(material for material in materials if material["id"] == element["material-id"])
-    E = material["E"]
-    G = material["G"]
+    fem_type = element_1d["fem-type"]
+    element_matrix, dofs
 
-    cross_section = next(cs for cs in cross_sections if cs["id"] == element["cross-section-id"])
-    A = cross_section["A"]
-    Iy = cross_section["Iy"]
-    Iz = cross_section["Iz"]
-    k = cross_section["k"]
+    if fem_type == "bar":
+        E = material["E"]
+        A = cross_section["A"]
+        element_matrix = element_bar_k_matrix(L, E, A)
+        dofs = np.tile(np.tile(np.arange(3), (2, 1)).T + 3 * (node_ids - 1).ravel(order="F"), (6,1))
 
-    element_k_matrix_lcs = element_k_matrix(L, E, G, A, Iy, Iz, k)
+    if fem_type == "beam":
+        E = material["E"]
+        G = material["G"]
+        A = cross_section["A"]
+        Iy = cross_section["Iy"]
+        Iz = cross_section["Iz"]
+        k = cross_section["k"]
+        element_matrix = element_k_matrix(L, E, G, A, Iy, Iz, k)
+        dofs = np.tile(np.tile(np.arange(6), (2, 1)).T + 6 * (node_ids - 1).ravel(order="F"), (12,1))
 
-    stiffness_matrix[dofs.T, dofs] += element_k_matrix_lcs
+    stiffness_matrix[dofs.T, dofs] += element_matrix
 
 for nodal_force in nodal_forces:
     dofs = np.arange(6) + 6 * (nodal_force["node-id"] - 1)
@@ -63,6 +69,11 @@ for nodal_dips in nodal_displacements:
     zero_dofs += zero_node_dofs
     stiffness_matrix = np.delete(np.delete(stiffness_matrix, zero_node_dofs, axis=0), zero_node_dofs, axis=1)
     force_vector = np.delete(force_vector, zero_node_dofs)
+
+for i, row in enumerate(stiffness_matrix):
+    if np.dot(row, row) < 0.001:
+        stiffness_matrix = np.delete(np.delete(stiffness_matrix, i, axis=0), i, axis=1)
+        force_vector = np.delete(force_vector, i)
 
 
 matrices_file_content = {
