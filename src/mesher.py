@@ -2,7 +2,7 @@ import json
 import numpy as np
 import time
 
-print("\nMesh generation started")
+print("\n# Mesh generation started")
 start_time = time.time()
 
 # Read mesh-settings.json
@@ -141,4 +141,4 @@ print(f"Number of nodes:                 {len(nodes)}\n"+
       f"Number of 3D elements:           {len(elements_3d)}\n"+
       f"Number of nodal displacement bc: {len(nodal_displacements)}\n"+
       f"Number of nodal force bc:        {len(nodal_forces)}\n"+
-      f"Mesh generation finished. Time elapsed: {round(time.time() - start_time, 8)}")
+      f"# Mesh generation finished. Time elapsed: {round(time.time() - start_time, 8)}")

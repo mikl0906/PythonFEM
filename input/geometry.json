@@ -20,7 +20,7 @@
       "line-id": 1,
       "material-id": 1,
       "cross-section-id": 1,
-      "fem-type": "bar"
+      "fem-type": "beam"
     }
   },
   "members-2d": {

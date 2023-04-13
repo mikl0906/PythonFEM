@@ -41,7 +41,7 @@ def element_k_matrix(L, E, G, A, Iy, Iz, k):
     k_11_11 = k_5_5
     k_12_12 = k_6_6
 
-    return [
+    return np.array([
         [  k_1_1,      0,      0,      0,      0,      0,   k_1_7,      0,      0,      0,      0,      0],
         [      0,  k_2_2,      0,      0,      0,  k_2_6,       0,  k_2_8,      0,      0,      0, k_2_12],
         [      0,      0,  k_3_3,      0,  k_3_5,      0,       0,      0,  k_3_9,      0, k_3_11,      0],
@@ -54,7 +54,7 @@ def element_k_matrix(L, E, G, A, Iy, Iz, k):
         [      0,      0,      0, k_4_10,      0,      0,       0,      0,      0,k_10_10,      0,      0],
         [      0,      0, k_3_11,      0, k_5_11,      0,       0,      0, k_9_11,      0,k_11_11,      0],
         [      0, k_2_12,      0,      0,      0, k_6_12,       0, k_8_12,      0,      0,      0,k_12_12]
-    ]
+    ])
 
 # Direct solvers
 def solve_gaussian(A_matrix,b_vector):
@@ -63,15 +63,22 @@ def solve_gaussian(A_matrix,b_vector):
     n = np.size(b)
     x = np.zeros(n)
 
+    # Iterate for each row i
     for i in range(n):
         if A[i,i] == 0.0:
             sys.exit(f"Error while solving. Main diagonal element is zero. DOF: {i}")
+        # Iterate for each following row j
         for j in range(i+1, n):
+            if A[j,i] == 0:
+                continue
+            # From every element of the j's row subtract the corresponding 
+            # element of the i's row multiplied by the ratio
             ratio = A[j,i] / A[i,i]
             for k in range(n):
                 A[j,k] -= ratio*A[i,k]
             b[j] -= ratio*b[i]
 
+    # Solve the equations from the last to the first
     for i in range(n-1,-1,-1):
         x[i] = b[i]
         for j in range(i+1, n):

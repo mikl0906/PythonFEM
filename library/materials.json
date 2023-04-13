@@ -14,6 +14,27 @@
       "E": 32000,
       "G": 12800,
       "nu": 0.25
+    },
+    "3": {
+      "name": "Material Name",
+      "properties": {
+        "general-properties": {
+          "density [kg/m3]": 7850,
+          "price per unit [euro/kg]": 1
+        },
+        "linear-elasticity": {
+          "E modulus [MPa]": 210000,
+          "G modulus [MPa]": null,
+          "Poisson ratio": 0.3
+        },
+        "strength": {
+          "yield strength [MPa]": 355,
+          "ultimate strength": 490
+        },
+        "thermal properties": {
+          "specific heat [J/gK]": 0.6
+        }
+      }
     }
   }
 }

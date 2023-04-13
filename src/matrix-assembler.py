@@ -1,8 +1,10 @@
 import json
+import time
 from core import element_bar_k_matrix, element_k_matrix
 import numpy as np
 
-print("Matrix assembler started\n")
+print("\n# Matrix assembler started")
+start_time = time.time()
 
 # Import mesh
 with open("./mesh/mesh.json") as matrices_file:
@@ -27,7 +29,6 @@ number_of_elements_1d = len(elements_1d)
 
 stiffness_matrix = np.zeros((number_of_dofs, number_of_dofs))
 force_vector = np.zeros(number_of_dofs)
-zero_dofs = []
 
 for element_1d in elements_1d.values():
     material = materials[str(element_1d["material-id"])]
@@ -38,15 +39,14 @@ for element_1d in elements_1d.values():
 
     fem_type = element_1d["fem-type"]
     element_matrix = None
-    dofs = None
+    dofs = np.tile((np.tile(np.arange(6), (2, 1)).T + 6 * (node_ids - 1)).ravel(order="F"), (12,1))
 
     if fem_type == "bar":
         E = material["E"]
         A = cross_section["A"]
 
-        P = np.array([[1,0,0,0,0,0],[0,0,0,1,0,0]])
+        P = np.array([[1,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0,0]])
         element_matrix = np.matmul(P.T,np.matmul(element_bar_k_matrix(L, E, A),P))
-        dofs = np.tile((np.tile(np.arange(3), (2, 1)).T + 3 * (node_ids - 1)).ravel(order="F"), (6,1))
 
     if fem_type == "beam":
         E = material["E"]
@@ -57,39 +57,43 @@ for element_1d in elements_1d.values():
         k = cross_section["k"]
 
         element_matrix = element_k_matrix(L, E, G, A, Iy, Iz, k)
-        dofs = np.tile(np.tile(np.arange(6), (2, 1)).T + 6 * (node_ids - 1).ravel(order="F"), (12,1))
 
     if element_matrix is not None and dofs is not None:
         stiffness_matrix[dofs.T, dofs] += element_matrix
 
+# Force boundary conditions
 for nodal_force in nodal_forces.values():
     dofs = np.arange(6) + 6 * (int(nodal_force["node-id"]) - 1)
     force_vector[dofs] += [nodal_force[key] for key in ("fx", "fy", "fz", "mx", "my", "mz")]
 
-for nodal_dips in nodal_displacements.values():
-    dofs = np.arange(6) + 6 * (int(nodal_dips["node-id"]) - 1)
-    values = [nodal_dips[key] for key in ("x", "y", "z", "rx", "ry", "rz")]
+# Displacement boundary conditions
+zero_dofs = []
+for nodal_disp in nodal_displacements.values():
+    dofs = np.arange(6) + 6 * (int(nodal_disp["node-id"]) - 1)
+    values = [nodal_disp[key] for key in ("x", "y", "z", "rx", "ry", "rz")]
 
     zero_node_dofs = [dof for i, dof in enumerate(dofs) if values[i] == 0]
     zero_dofs += zero_node_dofs
-    stiffness_matrix = np.delete(np.delete(stiffness_matrix, zero_node_dofs, axis=0), zero_node_dofs, axis=1)
-    force_vector = np.delete(force_vector, zero_node_dofs)
 
+# Delete zero equations
 zero_row_ids = []
 for i, row in enumerate(stiffness_matrix):
     if np.dot(row, row) < 0.001:
-        zero_row_ids.append(i)
-stiffness_matrix = np.delete(np.delete(stiffness_matrix, zero_row_ids, axis=0), zero_row_ids, axis=1)
-force_vector = np.delete(force_vector, zero_row_ids)
+        zero_dofs.append(i)
 
+zero_dofs = list(map(int, set(zero_dofs)))
+# Delete zero dofs
+stiffness_matrix = np.delete(np.delete(stiffness_matrix, zero_dofs, axis=0), zero_dofs, axis=1)
+force_vector = np.delete(force_vector, zero_dofs)
+
+# Create/Open mesh file and overwrite the content
 matrices_file_content = {
     "stiffness-matrix": stiffness_matrix.tolist(),
     "force-vector": force_vector.tolist(),
-    "zero-dofs": list(map(int, zero_dofs))
+    "zero-dofs": zero_dofs
 }
-# Create/Open mesh file and overwrite the content
 with open("./fem_data/matrices.json", "w") as matrices_file:
     json.dump(matrices_file_content, matrices_file, indent=2)
 
-print(f"Number of dofs: {number_of_dofs}")
-print("Matrix assembler finished\n")
+print(f"Number of dofs: {number_of_dofs}\n" +
+      f"# Matrix assembler finished. Time elapsed: {round(time.time() - start_time, 8)}")
