@@ -1,0 +1,83 @@
+{
+  "units": "mm",
+  "points": {
+    "1": { "x": 0, "y": 0, "z": 0 },
+    "2": { "x": 100, "y": 0, "z": 0 },
+    "3": { "x": 200, "y": 0, "z": 0 },
+    "4": { "x": 50, "y": 0, "z": 100 },
+    "5": { "x": 150, "y": 0, "z": 100 }
+  },
+  "lines": {
+    "1": { "point-ids": [1, 2] },
+    "2": { "point-ids": [2, 3] },
+    "3": { "point-ids": [4, 5] },
+    "4": { "point-ids": [1, 4] },
+    "5": { "point-ids": [4, 2] },
+    "6": { "point-ids": [2, 5] },
+    "7": { "point-ids": [5, 3] }
+  },
+  "surfaces": {
+    "1": { "line-ids": [] }
+  },
+  "volumes": {
+    "1": { "surface-ids": [] }
+  },
+  "members-1d": {
+    "1": {
+      "line-id": 1,
+      "material-id": 1,
+      "cross-section-id": 1,
+      "fem-type": "bar"
+    },
+    "2": {
+      "line-id": 2,
+      "material-id": 1,
+      "cross-section-id": 1,
+      "fem-type": "bar"
+    },
+    "3": {
+      "line-id": 3,
+      "material-id": 1,
+      "cross-section-id": 1,
+      "fem-type": "bar"
+    },
+    "4": {
+      "line-id": 4,
+      "material-id": 1,
+      "cross-section-id": 1,
+      "fem-type": "bar"
+    },
+    "5": {
+      "line-id": 5,
+      "material-id": 1,
+      "cross-section-id": 1,
+      "fem-type": "bar"
+    },
+    "6": {
+      "line-id": 6,
+      "material-id": 1,
+      "cross-section-id": 1,
+      "fem-type": "bar"
+    },
+    "7": {
+      "line-id": 7,
+      "material-id": 1,
+      "cross-section-id": 1,
+      "fem-type": "bar"
+    }
+  },
+  "members-2d": {
+    "1": {
+      "surface-id": 1,
+      "material-id": 1,
+      "cross-sertion-id": 1,
+      "fem-type": "plate"
+    }
+  },
+  "members-3d": {
+    "1": {
+      "volume-id": 1,
+      "material-id": 1
+    }
+  }
+}

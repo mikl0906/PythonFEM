@@ -1,0 +1,11 @@
+{
+  "analysis-settings": {
+    "type": "static",
+    "solver": "gaussian"
+  },
+  "mesh-settings": {
+    "number-of-1D-element-divisions": 2,
+    "element-1D-order": "linear",
+    "node-distance-tolerance": 0.001
+  }
+}

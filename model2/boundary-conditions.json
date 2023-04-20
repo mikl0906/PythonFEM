@@ -1,0 +1,25 @@
+{
+  "point-displacements": {
+    "1": {
+      "point-id": 1,
+      "dof-values": {
+        "ux": 0,
+        "uy": 0
+      }
+    },
+    "2": {
+      "point-id": 2,
+      "dof-values": {
+        "uy": 0
+      }
+    }
+  },
+  "point-forces": {
+    "1": {
+      "point-id": 4,
+      "dof-values": {
+        "fx": 100000
+      }
+    }
+  }
+}
