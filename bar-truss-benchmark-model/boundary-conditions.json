@@ -1,0 +1,44 @@
+{
+  "point-displacements": {
+    "1": {
+      "point-id": 1,
+      "dof-values": {
+        "ux": 0,
+        "uy": 0,
+        "uz": 0
+      }
+    },
+    "2": {
+      "point-id": 3,
+      "dof-values": {
+        "ux": 0,
+        "uy": 0,
+        "uz": 0
+      }
+    },
+    "3": {
+      "point-id": 7,
+      "dof-values": {
+        "ux": 0,
+        "uy": 0,
+        "uz": 0
+      }
+    },
+    "4": {
+      "point-id": 9,
+      "dof-values": {
+        "ux": 0,
+        "uy": 0,
+        "uz": 0
+      }
+    }
+  },
+  "point-forces": {
+    "1": {
+      "point-id": 5,
+      "dof-values": {
+        "fz": -100000
+      }
+    }
+  }
+}

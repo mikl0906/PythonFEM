@@ -1,7 +1,7 @@
 import json
 import time
 import numpy as np
-from element_bar import element_bar_global_k_matrix_3
+from element_bar import element_bar_global_k_matrix
 from element_beam import element_beam_local_k_matrix
 import sys
 
@@ -49,13 +49,13 @@ for element_1d in elements_1d.values():
     dof_ids_grid = np.tile(dof_ids, (len(dof_ids), 1))
 
     if element_type == "bar":
-        element_matrix = element_bar_global_k_matrix_3(element_nodes[0], element_nodes[-1], material, cross_section)
+        element_matrix = element_bar_global_k_matrix(element_nodes[0], element_nodes[-1], material, cross_section)
 
     if element_type == "beam":
         element_matrix = element_beam_local_k_matrix(element_nodes[0], element_nodes[-1], material, cross_section)
 
     if element_matrix is not None and dof_ids_grid is not None:
-        stiffness_matrix[dof_ids_grid.T, dof_ids_grid] += np.round(element_matrix,3)
+        stiffness_matrix[dof_ids_grid.T, dof_ids_grid] += np.round(element_matrix,5)
 
 force_dofs = {
     "ux": "fx",
@@ -99,15 +99,15 @@ for nodal_disp in nodal_displacements.values():
     zero_dofs += zero_node_dofs
 
 # Delete zero equations
-zero_row_ids = []
-for i, row in enumerate(stiffness_matrix):
-    if np.dot(row, row) < 0.001:
-        zero_dofs.append(i)
+# zero_row_ids = []
+# for i, row in enumerate(stiffness_matrix):
+#     if np.dot(row, row) < 0.001:
+#         zero_dofs.append(i)
 
-zero_dofs = list(map(int, set(zero_dofs)))
+# zero_dofs = list(map(int, set(zero_dofs)))
 # Delete zero dofs
-stiffness_matrix = np.delete(np.delete(stiffness_matrix, zero_dofs, axis=0), zero_dofs, axis=1)
-force_vector = np.delete(force_vector, zero_dofs)
+# stiffness_matrix = np.delete(np.delete(stiffness_matrix, zero_dofs, axis=0), zero_dofs, axis=1)
+# force_vector = np.delete(force_vector, zero_dofs)
 
 # Create/Open mesh file and overwrite the content
 matrices_file_content = {
