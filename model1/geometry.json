@@ -1,29 +1,32 @@
 {
+  "$schema": "../json-schema/geometry.schema.json",
   "units": "mm",
   "points": {
-    "1": { "x": 0, "y": 0, "z": 0 },
-    "2": { "x": 100, "y": 0, "z": 0 },
-    "3": { "x": 200, "y": 0, "z": 0 },
-    "4": { "x": 50, "y": 0, "z": 100 },
-    "5": { "x": 150, "y": 0, "z": 100 }
+    "point-1": { "x": 0, "y": 0, "z": 0 },
+    "point-2": { "x": 100, "y": 0, "z": 0 },
+    "point-3": { "x": 200, "y": 0, "z": 0 },
+    "point-4": { "x": 50, "y": 0, "z": 100 },
+    "point-5": { "x": 150, "y": 0, "z": 100 }
   },
   "lines": {
-    "1": { "point-ids": [1, 2] },
-    "2": { "point-ids": [2, 3] },
-    "3": { "point-ids": [4, 5] },
-    "4": { "point-ids": [1, 4] },
-    "5": { "point-ids": [4, 2] },
-    "6": { "point-ids": [2, 5] },
-    "7": { "point-ids": [5, 3] }
+    "line-1": { "point-ids": ["point-1", "point-2"] },
+    "line-2": { "point-ids": ["point-2", "point-3"] },
+    "line-3": { "point-ids": ["point-4", "point-5"] },
+    "line-4": { "point-ids": ["point-1", "point-4"] },
+    "line-5": { "point-ids": ["point-4", "point-2"] },
+    "line-6": { "point-ids": ["point-2", "point-5"] },
+    "line-7": { "point-ids": ["point-5", "point-3"] }
   },
   "surfaces": {
-    "1": { "line-ids": [] }
+    "surface-1": { "line-ids": ["line-1", "line-2", "line-3"] }
   },
   "volumes": {
-    "1": { "surface-ids": [] }
+    "volume-1": {
+      "surface-ids": ["surface-1", "surface-1", "surface-1", "surface-1"]
+    }
   },
   "members-1d": {
-    "1": {
+    "member-1d-1": {
       "line-id": 1,
       "material-id": 1,
       "cross-section-id": 1,

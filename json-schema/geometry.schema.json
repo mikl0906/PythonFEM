@@ -1,0 +1,127 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "units": {
+      "type": "string"
+    },
+    "points": {
+      "type": "object",
+      "patternProperties": {
+        "^point-\\d+$": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" },
+            "z": { "type": "number" }
+          },
+          "required": ["x", "y", "z"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "lines": {
+      "type": "object",
+      "patternProperties": {
+        "^line-\\d+$": {
+          "type": "object",
+          "properties": {
+            "point-ids": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^point-\\d+$" },
+              "minItems": 2
+            }
+          },
+          "required": ["point-ids"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "surfaces": {
+      "type": "object",
+      "patternProperties": {
+        "^surface-\\d+$": {
+          "type": "object",
+          "properties": {
+            "line-ids": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^line-\\d+$" },
+              "minItems": 3
+            }
+          },
+          "required": ["line-ids"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "volumes": {
+      "type": "object",
+      "patternProperties": {
+        "^volume-\\d+$": {
+          "type": "object",
+          "properties": {
+            "surface-ids": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^surface-\\d+$" },
+              "minItems": 4
+            }
+          },
+          "required": ["surface-ids"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "members-1d": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "line-id": { "type": "integer" },
+          "material-id": { "type": "integer" },
+          "cross-section-id": { "type": "integer" },
+          "fem-type": { "type": "string" }
+        },
+        "required": ["line-id", "material-id", "cross-section-id", "fem-type"]
+      }
+    },
+    "members-2d": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "surface-id": { "type": "integer" },
+          "material-id": { "type": "integer" },
+          "cross-sertion-id": { "type": "integer" },
+          "fem-type": { "type": "string" }
+        },
+        "required": [
+          "surface-id",
+          "material-id",
+          "cross-sertion-id",
+          "fem-type"
+        ]
+      }
+    },
+    "members-3d": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "volume-id": { "type": "integer" },
+          "material-id": { "type": "integer" }
+        },
+        "required": ["volume-id", "material-id"]
+      }
+    }
+  },
+  "required": [
+    "units",
+    "points",
+    "lines",
+    "surfaces",
+    "volumes",
+    "members-1d",
+    "members-2d",
+    "members-3d"
+  ]
+}
